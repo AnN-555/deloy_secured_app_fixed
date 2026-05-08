@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Drinks - Milk Tea Shop</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">MilkTea</div>
+      <div class="nav-links">
+        <a href="/user/dashboard">Home</a>
+        <a href="/admin/users">Users</a>
+        <a href="/admin/drinks">Drinks</a>
+        <a href="/admin/orders">Orders</a>
+      </div>
+      <div class="nav-right">
+        <span class="user-info">👤 <%= user.username %></span>
+        <a href="/logout" class="logout">Logout</a>
+      </div>
+    </nav>
+
+    <h1>Manage Drinks</h1>
+
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% drinks.forEach(function(d) { %>
+            <tr>
+              <td><%= d.id %></td>
+              <td><%= d.name %></td>
+              <td><%= d.category %></td>
+              <td>$<%= d.price.toFixed(2) %></td>
+              <td><%= d.stock %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

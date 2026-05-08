@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Cart - Milk Tea Shop</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">MilkTea</div>
+      <div class="nav-links">
+        <a href="/user/dashboard">Home</a>
+        <a href="/user/menu">Menu</a>
+        <a href="/user/cart">Cart</a>
+        <a href="/user/orders">Orders</a>
+      </div>
+      <div class="nav-right">
+        <span class="user-info">👤 <%= user.username %></span>
+        <a href="/logout" class="logout">Logout</a>
+      </div>
+    </nav>
+
+    <h1>Shopping Cart</h1>
+
+    <% if (!cartItems || cartItems.length === 0) { %>
+      <div class="card" style="text-align:center;padding:40px;">
+        <p style="color:var(--text-muted);">Your cart is empty.</p>
+        <a href="/user/menu" class="btn" style="margin-top:20px;">Browse Menu</a>
+      </div>
+    <% } else { %>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Subtotal</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% cartItems.forEach(function(item) { %>
+              <tr>
+                <td><%= item.name %></td>
+                <td>$<%= item.price.toFixed(2) %></td>
+                <td><%= item.quantity %></td>
+                <td>$<%= (item.price * item.quantity).toFixed(2) %></td>
+                <td>
+                  <form action="/user/cart/remove" method="POST" style="display:inline;">
+                    <input type="hidden" name="item_id" value="<%= item.id %>">
+                    <button type="submit" class="btn" style="padding:4px 8px;font-size:12px;background:var(--danger);">Remove</button>
+                  </form>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <div style="margin-top:20px;text-align:right;">
+          <h3>Total: $<%= total.toFixed(2) %></h3>
+          <a href="/user/menu" class="btn" style="background:var(--accent);margin-right:10px;">Continue Shopping</a>
+          <form action="/user/order/checkout" method="POST" style="display:inline;">
+            <input type="hidden" name="delivery_address" value="Default Address">
+            <button type="submit" class="btn" style="background:var(--success);">Checkout</button>
+          </form>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

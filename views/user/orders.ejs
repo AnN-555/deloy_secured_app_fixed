@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>My Orders - Milk Tea Shop</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">MilkTea</div>
+      <div class="nav-links">
+        <a href="/user/dashboard">Home</a>
+        <a href="/user/menu">Menu</a>
+        <a href="/user/cart">Cart</a>
+        <a href="/user/orders">Orders</a>
+      </div>
+      <div class="nav-right">
+        <span class="user-info">👤 <%= user.username %></span>
+        <a href="/logout" class="logout">Logout</a>
+      </div>
+    </nav>
+
+    <h1>My Orders</h1>
+
+    <div class="card">
+      <% if (!orders || orders.length === 0) { %>
+        <p style="color:var(--text-muted);text-align:center;">No orders yet.</p>
+      <% } else { %>
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Date</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.forEach(function(order) { %>
+              <tr>
+                <td>#<%= order.id %></td>
+                <td><%= order.order_date ? new Date(order.order_date).toLocaleDateString() : '—' %></td>
+                <td style="color:var(--success);">$<%= order.total ? order.total.toFixed(2) : '0.00' %></td>
+                <td><span class="badge badge-user"><%= order.status %></span></td>
+                <td><a href="/user/order/<%= order.id %>" class="btn" style="padding:6px 14px;font-size:12px;">View</a></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

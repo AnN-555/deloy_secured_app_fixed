@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Menu - Milk Tea Shop</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">MilkTea</div>
+      <div class="nav-links">
+        <a href="/user/dashboard">Home</a>
+        <a href="/user/menu">Menu</a>
+        <a href="/user/cart">Cart</a>
+        <a href="/user/orders">Orders</a>
+      </div>
+      <div class="nav-right">
+        <span class="user-info">👤 <%= user.username %></span>
+        <a href="/logout" class="logout">Logout</a>
+      </div>
+    </nav>
+
+    <h1>Our Menu</h1>
+
+    <div class="drinks-grid">
+      <% drinks.forEach(function(drink) { %>
+        <div class="drink-card">
+          <div style="font-size:48px;"><%= drink.image %></div>
+          <h3><%= drink.name %></h3>
+          <p style="color: var(--text-muted);"><%= drink.category %></p>
+          <p class="price">$<%= drink.price.toFixed(2) %></p>
+          <form action="/user/cart/add" method="POST" style="margin-top:10px;">
+            <input type="hidden" name="drink_id" value="<%= drink.id %>">
+            <button type="submit" class="btn" style="padding:8px 16px;font-size:14px;">Add to Cart</button>
+          </form>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</body>
+</html>

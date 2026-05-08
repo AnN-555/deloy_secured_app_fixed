@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Order Detail - Milk Tea Shop</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">MilkTea</div>
+      <div class="nav-links">
+        <a href="/user/dashboard">Home</a>
+        <a href="/user/menu">Menu</a>
+        <a href="/user/cart">Cart</a>
+        <a href="/user/orders">Orders</a>
+      </div>
+      <div class="nav-right">
+        <span class="user-info">👤 <%= user.username %></span>
+        <a href="/logout" class="logout">Logout</a>
+      </div>
+    </nav>
+
+    <h1>Order #<%= order.id %></h1>
+
+    <div class="card">
+      <p><strong>Status:</strong> <span class="badge badge-user"><%= order.status %></span></p>
+      <p><strong>Total:</strong> $<%= order.total ? order.total.toFixed(2) : '0.00' %></p>
+      <p><strong>Date:</strong> <%= order.order_date ? new Date(order.order_date).toLocaleString() : '—' %></p>
+      <p><strong>Address:</strong> <%= order.delivery_address || 'N/A' %></p>
+    </div>
+
+    <h2>Order Items</h2>
+    <div class="card">
+      <% if (items && items.length > 0) { %>
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% items.forEach(function(item) { %>
+              <tr>
+                <td><%= item.name %></td>
+                <td><%= item.quantity %></td>
+                <td>$<%= item.price ? item.price.toFixed(2) : '0.00' %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <p style="color:var(--text-muted);">No items found.</p>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

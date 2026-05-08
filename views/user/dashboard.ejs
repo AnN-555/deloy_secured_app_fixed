@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Milk Tea Shop</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">MilkTea</div>
+      <div class="nav-links">
+        <a href="/user/dashboard">Home</a>
+        <a href="/user/menu">Menu</a>
+        <a href="/user/cart">Cart</a>
+        <a href="/user/orders">Orders</a>
+        <a href="/user/reviews">Reviews</a>
+      </div>
+      <div class="nav-right">
+        <span class="user-info">👤 <%= user.username %></span>
+        <a href="/logout" class="logout">Logout</a>
+      </div>
+    </nav>
+
+    <div class="card">
+      <h1>Welcome, <%= user.username %>!</h1>
+      <p>Your balance: $<%= user.balance %></p>
+    </div>
+
+    <h2>Featured Drinks</h2>
+    <div class="drinks-grid">
+      <% featuredDrinks.forEach(function(drink) { %>
+        <div class="drink-card">
+          <div style="font-size:48px;"><%= drink.image %></div>
+          <h3><%= drink.name %></h3>
+          <p class="price">$<%= drink.price.toFixed(2) %></p>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg-dark: #0f0f1a;
+  --bg-card: #1a1a2e;
+  --primary: #e94560;
+  --primary-light: #ff6b6b;
+  --accent: #667eea;
+  --success: #4CAF50;
+  --danger: #e94560;
+  --warning: #ff9800;
+  --text: #ffffff;
+  --text-muted: #888;
+  --border: #333;
+  --bg-input: #252538;
+}
+body { font-family: 'Segoe UI', sans-serif; background: var(--bg-dark); color: var(--text); min-height: 100vh; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+nav { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--bg-card); border-radius: 12px; margin-bottom: 20px; }
+.logo { font-size: 24px; font-weight: bold; color: var(--primary); }
+.nav-links a { color: var(--text); text-decoration: none; margin: 0 15px; }
+.nav-links a:hover { color: var(--primary); }
+.nav-right { display: flex; align-items: center; gap: 15px; }
+.user-info { color: var(--text-muted); }
+.logout { color: var(--danger); text-decoration: none; }
+.card { background: var(--bg-card); padding: 30px; border-radius: 12px; margin-bottom: 20px; }
+.btn { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-block; }
+.btn:hover { opacity: 0.9; }
+.alert { padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+.alert-danger { background: rgba(233,69,96,0.2); border: 1px solid var(--danger); color: var(--danger); }
+.alert-success { background: rgba(76,175,80,0.2); border: 1px solid var(--success); color: var(--success); }
+.auth-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+.auth-card { background: var(--bg-card); padding: 40px; border-radius: 16px; width: 400px; text-align: center; }
+.auth-card .logo { font-size: 32px; margin-bottom: 10px; }
+.auth-card .brand { color: var(--text-muted); margin-bottom: 30px; }
+.auth-card input { width: 100%; padding: 12px; margin-bottom: 15px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; color: var(--text); }
+.auth-card button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; }
+.auth-card label { display: block; text-align: left; margin-bottom: 5px; color: var(--text-muted); font-size: 14px; }
+.link { color: var(--accent); text-decoration: none; }
+.drinks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+.drink-card { background: var(--bg-card); padding: 20px; border-radius: 12px; text-align: center; }
+.drink-card .price { color: var(--success); font-size: 18px; font-weight: bold; }
+table { width: 100%; border-collapse: collapse; }
+table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+table th { color: var(--text-muted); font-weight: normal; }
+.badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+.badge-admin { background: var(--danger); color: white; }
+.badge-user { background: var(--accent); color: white; }

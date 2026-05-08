@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Milk Tea Shop</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="logo">MilkTea</div>
+      <div class="brand">Create Account</div>
+
+      <% if (error) { %>
+        <div class="alert alert-danger"><%= typeof error === 'string' ? error : 'An error occurred' %></div>
+      <% } %>
+
+      <form action="/register" method="POST">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Choose a username" required>
+
+        <label>Email</label>
+        <input type="email" name="email" placeholder="Enter your email" required>
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Choose a password (min 6 chars)" required>
+
+        <button type="submit">Register</button>
+      </form>
+
+      <p style="text-align:center;margin-top:16px;color:var(--text-muted);">
+        Already have an account? <a href="/login" class="link">Sign In</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

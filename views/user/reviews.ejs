@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Reviews - Milk Tea Shop</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">MilkTea</div>
+      <div class="nav-links">
+        <a href="/user/dashboard">Home</a>
+        <a href="/user/menu">Menu</a>
+        <a href="/user/cart">Cart</a>
+        <a href="/user/orders">Orders</a>
+        <a href="/user/reviews">Reviews</a>
+      </div>
+      <div class="nav-right">
+        <span class="user-info">👤 <%= user.username %></span>
+        <a href="/logout" class="logout">Logout</a>
+      </div>
+    </nav>
+
+    <h1>Customer Reviews</h1>
+
+    <% if (!reviews || reviews.length === 0) { %>
+      <div class="card" style="text-align:center;padding:40px;">
+        <p style="color:var(--text-muted);">No reviews yet.</p>
+      </div>
+    <% } else { %>
+      <% reviews.forEach(function(r) { %>
+        <div class="card" style="margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+            <strong><%= r.username %></strong>
+            <span style="color:var(--text-muted);font-size:12px;"><%= r.created_at %></span>
+          </div>
+          <div style="color:var(--text);line-height:1.7;"><%= r.comment %></div>
+        </div>
+      <% }); %>
+    <% } %>
+  </div>
+</body>
+</html>

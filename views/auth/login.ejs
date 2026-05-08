@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Milk Tea Shop</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="logo">MilkTea</div>
+      <div class="brand">Premium Bubble Tea</div>
+
+      <% if (error) { %>
+        <div class="alert alert-danger"><%= typeof error === 'string' ? error : 'An error occurred' %></div>
+      <% } %>
+
+      <form action="/login" method="POST">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Enter your username" required>
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter your password" required>
+
+        <button type="submit">Sign In</button>
+      </form>
+
+      <p style="text-align:center;margin-top:16px;">
+        <a href="/forgot-password" class="link" style="font-size:13px;">Quên mật khẩu?</a>
+      </p>
+      <p style="text-align:center;margin-top:8px;color:var(--text-muted);">
+        Don't have an account? <a href="/register" class="link">Register</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>
