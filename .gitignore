@@ -1,0 +1,5 @@
+node_modules/
+data.db
+data_secured.db
+*.log
+.env
