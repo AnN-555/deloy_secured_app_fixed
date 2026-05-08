@@ -28,18 +28,24 @@ router.get('/dashboard', requireAuth, (req, res) => {
 router.get('/menu', requireAuth, (req, res) => {
   const db = req.db;
   const category = req.query.category || 'all';
+  const search = req.query.q || '';
 
-  let sql = 'SELECT * FROM drinks';
+  let sql = 'SELECT * FROM drinks WHERE 1=1';
   let params = [];
 
   if (category !== 'all') {
-    sql += ' WHERE category = ?';
-    params = [category];
+    sql += ' AND category = ?';
+    params.push(category);
+  }
+
+  if (search) {
+    sql += ' AND name LIKE ?';
+    params.push(`%${search}%`);
   }
 
   db.all(sql, params, (err, drinks) => {
     db.all('SELECT * FROM drinks GROUP BY category', [], (err, categories) => {
-      res.render('user/menu', { drinks, categories, selectedCategory: category, user: req.session });
+      res.render('user/menu', { drinks, categories, selectedCategory: category, searchQuery: search, user: req.session });
     });
   });
 });
@@ -137,7 +143,7 @@ router.get('/order/:id', requireAuth, (req, res) => {
       db.all(`SELECT oi.*, d.name, d.image FROM order_items oi
               JOIN drinks d ON oi.drink_id = d.id
               WHERE oi.order_id = ?`, [orderId], (err, items) => {
-        res.render('user/order-detail', { order, items, currentUserId: req.session.userId });
+        res.render('user/order-detail', { order, items, currentUserId: req.session.userId, user: req.session });
       });
     }
   );
@@ -164,26 +170,27 @@ router.post('/order/checkout', requireAuth, (req, res) => {
 
         const orderDate = new Date().toISOString();
 
-        db.run(`INSERT INTO orders (user_id, total, status, order_date, delivery_address, notes)
-                VALUES (?, ?, 'pending', ?, ?, ?)`,
-          [req.session.userId, total, orderDate, delivery_address || '', notes || ''],
-          function(err) {
-            if (err) return res.redirect('/user/cart');
-
-            const orderId = this.lastID;
-
-            cartItems.forEach(function(item) {
-              db.run('INSERT INTO order_items (order_id, drink_id, quantity, price) VALUES (?, ?, ?, ?)',
-                [orderId, item.drink_id, item.quantity, item.price || 0]);
-              db.run('UPDATE drinks SET stock = stock - ? WHERE id = ?', [item.quantity, item.drink_id]);
-            });
-
-            db.run('UPDATE users SET balance = balance - ? WHERE id = ?', [total, req.session.userId]);
-            db.run('DELETE FROM cart_items WHERE cart_id = ?', [cart.id]);
-
-            res.redirect('/user/order/' + orderId);
+        const stmt = db.prepare(`INSERT INTO orders (user_id, total, status, order_date, delivery_address, notes) VALUES (?, ?, 'pending', ?, ?, ?)`);
+        stmt.run([req.session.userId, total, orderDate, delivery_address || '', notes || ''], function(err) {
+          if (err) {
+            stmt.finalize();
+            return res.redirect('/user/cart');
           }
-        );
+
+          const orderId = this.lastID;
+
+          cartItems.forEach(function(item) {
+            db.run('INSERT INTO order_items (order_id, drink_id, quantity, price) VALUES (?, ?, ?, ?)',
+              [orderId, item.drink_id, item.quantity, item.price || 0]);
+            db.run('UPDATE drinks SET stock = stock - ? WHERE id = ?', [item.quantity, item.drink_id]);
+          });
+
+          db.run('UPDATE users SET balance = balance - ? WHERE id = ?', [total, req.session.userId]);
+          db.run('DELETE FROM cart_items WHERE cart_id = ?', [cart.id]);
+
+          stmt.finalize();
+          res.redirect('/user/order/' + orderId);
+        });
       });
     });
   });
@@ -198,6 +205,24 @@ router.get('/reviews', requireAuth, (req, res) => {
     [],
     (err, reviews) => {
       res.render('user/reviews', { reviews: reviews || [], user: req.session });
+    }
+  );
+});
+
+router.post('/reviews', requireAuth, (req, res) => {
+  const { comment } = req.body;
+  const db = req.db;
+
+  if (!comment || comment.trim().length === 0) {
+    return res.redirect('/user/reviews');
+  }
+
+  db.run(
+    `INSERT INTO reviews (user_id, name, comment, rating, created_at) VALUES (?, ?, ?, ?, datetime('now'))`,
+    [req.session.userId, req.session.username, comment.trim(), 5],
+    (err) => {
+      if (err) console.error(err);
+      res.redirect('/user/reviews');
     }
   );
 });

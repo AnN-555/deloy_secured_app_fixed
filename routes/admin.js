@@ -19,6 +19,31 @@ router.get('/users', requireAuth, (req, res) => {
   });
 });
 
+router.post('/users/delete', requireAuth, (req, res) => {
+  const { user_id } = req.body;
+  const db = req.db;
+
+  if (parseInt(user_id) === req.session.userId) {
+    return res.redirect('/admin/users?error=cannot_delete_self');
+  }
+
+  db.run('DELETE FROM users WHERE id = ?', [user_id], (err) => {
+    if (err) console.error(err);
+    res.redirect('/admin/users');
+  });
+});
+
+router.post('/users/update', requireAuth, (req, res) => {
+  const { user_id, role, balance } = req.body;
+  const db = req.db;
+
+  db.run('UPDATE users SET role = ?, balance = ? WHERE id = ?',
+    [role, parseInt(balance), user_id], (err) => {
+      if (err) console.error(err);
+      res.redirect('/admin/users');
+    });
+});
+
 router.get('/drinks', requireAuth, (req, res) => {
   const db = req.db;
   db.all('SELECT * FROM drinks ORDER BY id', [], (err, drinks) => {

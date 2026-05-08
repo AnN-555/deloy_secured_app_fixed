@@ -32,6 +32,7 @@
             <th>Email</th>
             <th>Role</th>
             <th>Balance</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -42,6 +43,21 @@
               <td><%= u.email %></td>
               <td><span class="badge <%= u.role === 'admin' ? 'badge-admin' : 'badge-user' %>"><%= u.role %></span></td>
               <td>$<%= u.balance %></td>
+              <td>
+                <form action="/admin/users/update" method="POST" style="display:inline-flex;gap:5px;align-items:center;">
+                  <input type="hidden" name="user_id" value="<%= u.id %>">
+                  <select name="role" style="padding:4px;background:var(--bg-input);border:1px solid var(--border);color:var(--text);border-radius:4px;">
+                    <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>user</option>
+                    <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>admin</option>
+                  </select>
+                  <input type="number" name="balance" value="<%= u.balance %>" style="width:80px;padding:4px;background:var(--bg-input);border:1px solid var(--border);color:var(--text);border-radius:4px;">
+                  <button type="submit" class="btn" style="padding:4px 8px;font-size:12px;">Update</button>
+                </form>
+                <form action="/admin/users/delete" method="POST" style="display:inline;" onsubmit="return confirm('Delete user <%= u.username %>?');">
+                  <input type="hidden" name="user_id" value="<%= u.id %>">
+                  <button type="submit" class="btn" style="padding:4px 8px;font-size:12px;background:var(--danger);">Delete</button>
+                </form>
+              </td>
             </tr>
           <% }); %>
         </tbody>

@@ -17,12 +17,21 @@
         <a href="/user/reviews">Reviews</a>
       </div>
       <div class="nav-right">
+        <a href="/user/profile">Profile</a>
         <span class="user-info">👤 <%= user.username %></span>
         <a href="/logout" class="logout">Logout</a>
       </div>
     </nav>
 
     <h1>Customer Reviews</h1>
+
+    <div class="card" style="margin-bottom:20px;">
+      <h3 style="margin-bottom:15px;">Leave a Review</h3>
+      <form action="/user/reviews" method="POST">
+        <textarea name="comment" placeholder="Write your review here..." rows="4" style="width:100%;padding:12px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--text);resize:vertical;" required></textarea>
+        <button type="submit" class="btn" style="margin-top:10px;">Submit Review</button>
+      </form>
+    </div>
 
     <% if (!reviews || reviews.length === 0) { %>
       <div class="card" style="text-align:center;padding:40px;">

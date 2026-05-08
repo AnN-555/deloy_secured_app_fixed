@@ -19,6 +19,7 @@
       </div>
       <div class="nav-right">
         <span class="user-info">👤 <%= user.username %></span>
+        <a href="/user/profile">Profile</a>
         <a href="/logout" class="logout">Logout</a>
       </div>
     </nav>
@@ -26,6 +27,7 @@
     <div class="card">
       <h1>Welcome, <%= user.username %>!</h1>
       <p>Your balance: $<%= user.balance %></p>
+      <p>Total spent: $<%= totalSpent.toFixed(2) %> | Orders: <%= orderCount %></p>
     </div>
 
     <h2>Featured Drinks</h2>
@@ -35,8 +37,15 @@
           <div style="font-size:48px;"><%= drink.image %></div>
           <h3><%= drink.name %></h3>
           <p class="price">$<%= drink.price.toFixed(2) %></p>
+          <a href="/user/menu" class="btn" style="padding:6px 12px;font-size:12px;margin-top:8px;">Order Now</a>
         </div>
       <% }); %>
+    </div>
+
+    <div style="margin-top:30px;">
+      <a href="/user/menu" class="btn" style="background:var(--accent);">Browse Full Menu</a>
+      <a href="/user/cart" class="btn" style="background:var(--success);">Go to Cart</a>
+      <a href="/user/orders" class="btn" style="background:var(--primary);">View Orders</a>
     </div>
   </div>
 </body>
